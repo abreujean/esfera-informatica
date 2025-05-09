@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'profile_id',
+        'hash',
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -42,4 +45,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+      /**
+     * Relacionamento com Profile
+     */
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    /**
+     * Relacionamento com Task (N:N através da tabela pivot task_user)
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'task');
+    }
+
+    /**
+     * Relacionamento com Log (1:N)
+     */
+    public function logs()
+    {
+        return $this->hasMany(Log::class);
+    }
 }
