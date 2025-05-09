@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('hash', 100);
             $table->string('title', 255);
             $table->text('description', 255);
-            $table->enum('status',['Pendente','Concluída']);
+            $table->enum('status',['Pendente','Concluída', 'Excluída']);
             $table->timestamps();
         });
     }
