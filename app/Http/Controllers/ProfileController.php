@@ -11,6 +11,10 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public static $USUARIO = 1;
+    public static $ADMINISTRADOR = 2;
+
     /**
      * Display the user's profile form.
      */

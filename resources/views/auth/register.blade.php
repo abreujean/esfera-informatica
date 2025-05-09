@@ -19,13 +19,19 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
+            
             <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
+                        type="password"
+                        name="password"
+                        required
+                        autocomplete="new-password"
+                        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                        title="Mínimo 8 caracteres com letras, números e símbolos (@$!%*#?&)" />
+            
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                A senha deve conter pelo menos 8 caracteres, incluindo letras, números e símbolos (@$!%*#?&).
+            </p>
         </div>
 
         <!-- Confirm Password -->

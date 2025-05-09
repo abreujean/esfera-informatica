@@ -93,8 +93,8 @@ routes/
 
 ## 💡 Usuário Admin Padrão (Seeder)
 
-* **E-mail:** [admin@example.com](mailto:admin@example.com)
-* **Senha:** password
+* **E-mail:** admin@esfera.com
+* **Senha:** SenhaSegura123@
 
 ## 📝 Licença
 
