@@ -77,7 +77,7 @@
         </section>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL LG CREATE TASK-->
     <div class="modal fade" id="modal-lg-create-task" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -108,19 +108,77 @@
 
                     <div class="form-group">
                         <label>Status</label>
-                        <select class="form-control select2 select2-hidden-accessible" id="status" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                            <option selected="selected" data-select2-id="Pendente">Pendente</option>
-                            <option data-select2-id="Concluída">Concluída</option>
+                        <select class="form-control select2 select2-hidden-accessible" id="status" style="width: 100%;"  tabindex="-1" aria-hidden="true">
+                            <option selected="selected" value="Pendente">Pendente</option>
+                            <option value="Concluída">Concluída</option>
                         </select>
                     </div>
 
-                    <div class="form-group" data-select2-id="82">
+    
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    </div>
+                </form>
+                </div>
+                
+            </div>
+    
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!-- MODAL GERENCIAS USUÁRIOS-->
+    <div class="modal fade" id="modal-lg-task-user-manage" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Gerenciar Usuários Vinculados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="card card-light">
+                <div class="card-header">
+                    
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                
+                    <div class="card-body">
+
+                    <div class="col-md-12">
+                        <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title title-user-manage"></h3>
+
+                            <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body body-user-manage" style="display: block;">
+                            
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                <form id="task-user-manage">
+                    <input type="hidden" id="task_hash" name="task_hash" value="">
+                    <div class="form-group">
                         <label>Vinculos</label>
-                        <select class="select2 select2-hidden-accessible" multiple="" id="user_id" data-placeholder="Select a State" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
-                            @foreach ($users as $user)
-                                <option  value="{{ $user->id }}" @if($user->id == Auth::id()) selected @endif >{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                        <select class="select2 select2-hidden-accessible" multiple="" id="user_manager_id" data-placeholder="Select a State" style="width: 100%;"  tabindex="-1" aria-hidden="true"></select>
                     </div>
     
                     </div>
@@ -140,27 +198,91 @@
         <!-- /.modal-dialog -->
     </div>
 
+    <!-- MODAL LG UPDATE TASK-->
+    <div class="modal fade" id="modal-lg-update-task" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Criar Tarefa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="card card-light">
+                <div class="card-header">
+                    
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id="task-update">
+                    <div class="card-body">
+                    <div class="form-group">
+                        <label for="title">Titulo</label>
+                        <input type="text" class="form-control" id="title-update" name="titulo" placeholder="Titulo">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição</label>
+                        <input type="text" class="form-control" id="description-update" name="description" placeholder="Descrição">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control select2 select2-hidden-accessible" id="status-update" style="width: 100%;"  tabindex="-1" aria-hidden="true">
+                            <option selected="selected" value="Pendente">Pendente</option>
+                            <option value="Concluída">Concluída</option>
+                        </select>
+                    </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    </div>
+                </form>
+                </div>
+                
+            </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+      
+
 @endsection
 
 
 @section('js')
+
+<!-- Select2 -->
+<script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
     <script>
         $(function () {
-            //Initialize Select2 Elements
+            //Initialize Select2 Elements   
             $('.select2').select2()
         })
 
-        //Constants
+        //Constants Routes
+        const listUsers = "{{ route('users.list') }}";
         const createTaskUrl = "{{ route('tasks.store') }}";
         const listTaskUserLoggedStatus = "{{ route('tasks.user.logged.status', ['status' => ':status']) }}";
-
+        const listTaskAllStatus = "{{ route('tasks.all.status', ['status' => ':status']) }}";
+        const listTaskUserHash = "{{ route('tasks.user.logged', ['hash' => ':hash']) }}";
+        const updateTaskUserHash = "{{ route('tasks.user.update') }}";
+        const updateTaskUpdateStatus = "{{ route('tasks.update.status') }}";s
+        
     </script>
 
-    <script src="{{ asset('js/dashboard.js') }}"></script>
+    
 
-    <!-- Select2 -->
-    <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
-    <!-- SweetAlert2 -->
-    <script src="{{ asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 
 @endsection

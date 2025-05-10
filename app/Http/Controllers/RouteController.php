@@ -25,7 +25,8 @@ class RouteController extends Controller
     public function dashboard()
     {
 
-        $users = $this->userController->getUsers();
-        return view('dashboard', compact('users'));
+        //deco json
+        $listUser = json_decode($this->userController->listAllUser()->getContent(), true);
+        return view('dashboard', compact('listUser'));
     }
 }

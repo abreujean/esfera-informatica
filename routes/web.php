@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('/tasks/user/logged/{status}', [TaskController::class, 'listTaskUserLoggedStatus'])->name('tasks.user.logged.status');
     Route::get('/tasks/all/{status}', [TaskController::class, 'listTaskAllStatus'])->name('tasks.all.status');
+    Route::get('/tasks/{hash}/users', [TaskController::class, 'listTaskUserHash'])->name('tasks.user.logged');
+    Route::post('/tasks//users/update', [TaskController::class, 'updateTaskUserHash'])->name('tasks.user.update');
+    Route::post('/tasks/update/status', [TaskController::class, 'updateTaskStatusCompleted'])->name('tasks.update.status');
+
+    //User routes
+    Route::get('/users', [UserController::class, 'listAllUser'])->name('users.list');
 
 });
 

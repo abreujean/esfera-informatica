@@ -54,9 +54,9 @@ class UserController extends Controller
      * Função para retornar todos os usuários
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getUsers()
+    public function listAllUser()
     {
         $users = User::all();
-        return $users;
+        return response()->json($users);
     }
 }
