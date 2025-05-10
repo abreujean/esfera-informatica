@@ -25,10 +25,10 @@
 
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option_a1" autocomplete="off" checked=""> Minhas
+                            <input type="radio" name="filter-tasks-dashboard" id="option_a1" value="my_tasks" autocomplete="off" checked=""> Minhas
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option_a2" autocomplete="off"> Todas
+                            <input type="radio" name="filter-tasks-dashboard" id="option_a2" value="all_tasks" autocomplete="off"> Todas
                         </label>
                     </div>
                 </div>
@@ -55,27 +55,7 @@
                     </h3>
                 </div>
 
-                <div class="card-body">
-
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title">Update Readme</h5>
-                            <div class="card-tools">
-                            <a href="#" class="btn btn-tool btn-link">#2</a>
-                            <a href="#" class="btn btn-tool">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            Aenean commodo ligula eget dolor. Aenean massa.
-                            Cum sociis natoque penatibus et magnis dis parturient montes,
-                            nascetur ridiculus mus.
-                            </p>
-                        </div>
-                    </div>
+                <div class="card-body" id="pendente">
 
                 </div>
             </div>
@@ -88,27 +68,8 @@
                     </h3>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" id="concluida">
 
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title">Update Readme</h5>
-                            <div class="card-tools">
-                            <a href="#" class="btn btn-tool btn-link">#2</a>
-                            <a href="#" class="btn btn-tool">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            Aenean commodo ligula eget dolor. Aenean massa.
-                            Cum sociis natoque penatibus et magnis dis parturient montes,
-                            nascetur ridiculus mus.
-                            </p>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -183,20 +144,22 @@
 
 
 @section('js')
-    <!-- Select2 -->
-    <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
-
     <script>
         $(function () {
             //Initialize Select2 Elements
             $('.select2').select2()
         })
 
+        //Constants
         const createTaskUrl = "{{ route('tasks.store') }}";
+        const listTaskUserLoggedStatus = "{{ route('tasks.user.logged.status', ['status' => ':status']) }}";
+
     </script>
 
     <script src="{{ asset('js/dashboard.js') }}"></script>
 
+    <!-- Select2 -->
+    <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 

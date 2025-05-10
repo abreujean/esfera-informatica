@@ -63,4 +63,53 @@ class TaskController extends Controller
             return response()->json($e->getMessage(), 400);
         } 
     }
+
+    /**
+     * Função para listar as tarefas do usuário logado e pelo status.
+     */
+    public function listTaskUserLoggedStatus($status)
+    {
+        // Verifica se o usuário está autenticado
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Usuário não autenticado.'], 401);
+        }
+
+        // Obtém o ID do usuário autenticado
+        $userId = Auth::id();
+
+        $tasks = Task::with(['users' => function($query) {
+            $query->select('users.id', 'users.name'); // Seleciona apenas campos necessários
+        }])
+        ->whereHas('users', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        });
+
+        if ($status) {
+            $tasks->where('status', $status);
+        }
+
+        return response()->json($tasks->get());
+    }
+
+    /**
+     * Função para listar todas as tarefas de todos os usuário pelo status.
+     */
+    public function listTaskAllStatus($status)
+    {
+        // Verifica se o usuário está autenticado
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Usuário não autenticado.'], 401);
+        }
+
+        $tasks = Task::with(['users' => function($query) {
+            $query->select('users.id', 'users.name'); // Seleciona apenas campos necessários
+        }]);
+
+        if ($status) {
+            $tasks->where('status', $status);
+        }
+
+        return response()->json($tasks->get());
+    }
+    
 }
