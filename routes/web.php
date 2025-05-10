@@ -30,11 +30,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Task routes
     Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+
     Route::get('/tasks/user/logged/{status}', [TaskController::class, 'listTaskUserLoggedStatus'])->name('tasks.user.logged.status');
     Route::get('/tasks/all/{status}', [TaskController::class, 'listTaskAllStatus'])->name('tasks.all.status');
     Route::get('/tasks/{hash}/users', [TaskController::class, 'listTaskUserHash'])->name('tasks.user.logged');
+
     Route::post('/tasks//users/update', [TaskController::class, 'updateTaskUserHash'])->name('tasks.user.update');
     Route::post('/tasks/update/status', [TaskController::class, 'updateTaskStatusCompleted'])->name('tasks.update.status');
+    Route::post('/tasks/update', [TaskController::class, 'update'])->name('tasks.update');
+    Route::post('/tasks/delete', [TaskController::class, 'destroy'])->name('tasks.delete');
+    Route::post('/tasks/filter', [TaskController::class, 'filterTasks'])->name('tasks.filter');
 
     //User routes
     Route::get('/users', [UserController::class, 'listAllUser'])->name('users.list');

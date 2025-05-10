@@ -37,10 +37,12 @@ $(document).ready(async () => {
         const filterType = $(this).val();
         loadTasks( filterType);
     });
+
     // Carrega tarefas inicialmente (padrão: 'my_tasks')
     loadTasks('my_tasks');
-
     users = await listAllUsers();
+    // Carrega o Select2 do filtro de tarefas
+    loadUsers();
 });
 
 //Carrga as tarefas da tela inicial
@@ -141,19 +143,19 @@ const creatCardTaskPending = (tasks) => {
         return;
     }
 
-    // Itera sobre cada tarefa
-    tasks.forEach(task => {
+        // Itera sobre cada tarefa
+        tasks.forEach(task => {
         // Cria o HTML para os usuários vinculados
         let usersHtml = '';
      
         task.users.forEach(user => {
-            usersHtml = '';
             usersHtml += `
                 <span class="text-muted mr-2">${user.name}</span>
             `;
         });
 
         if (usersHtml.length === 0) {
+            usersHtml = '';
             usersHtml += `
                 <span class="text-muted mr-2">Nenhum Usuário Vinculado</span>
             `;
@@ -165,22 +167,22 @@ const creatCardTaskPending = (tasks) => {
         // Cria o card completo
         const taskHtml = `
             <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title">${task.title}</h5>
-                    <div class="card-tools">
+                <div class="card-header mb-3">
+                    <div class="card-tools mb-3">
                         <a class="btn btn-tool text-primary" href="#">
                             <i class="fas fa-square"></i>
                         </a>
                         <a class="btn btn-tool btn-task-completed" href="#" data-task-hash="${task.hash}">
                             <i class="fas fa-thumbs-up"></i>
                         </a>
-                        <a href="#" class="btn btn-tool">
+                        <a href="#" class="btn btn-tool btn-task-edit" data-task-hash="${task.hash}">
                             <i class="fas fa-pen"></i>
                         </a>
-                        <a href="#" class="btn btn-tool">
+                        <a href="#" class="btn btn-tool btn-task-delete" data-task-hash="${task.hash}">
                             <i class="far fa-trash-alt"></i>
                         </a>
                     </div>
+                    <h5 class="card-title mb-2">${task.title}</h5>
                 </div>
                 <div class="card-body">
                     <p>${task.description || 'Sem descrição fornecida'}</p>
@@ -239,10 +241,10 @@ const creatCardTaskCompleted = (tasks) => {
                         <a class="btn-status btn btn-tool text-success" data-status="Pendente">
                             <i class="fas fa-square"></i>
                         </a>
-                        <a href="#" class="btn-edit btn btn-tool" data-task-id="${task.id}">
+                       <a href="#" class="btn btn-tool btn-task-edit" data-task-hash="${task.hash}">
                             <i class="fas fa-pen"></i>
                         </a>
-                        <a href="#" class="btn-delete btn btn-tool" data-task-id="${task.id}">
+                        <a href="#" class="btn-delete btn btn-tool btn-task-delete" data-task-hash="${task.hash}">
                             <i class="far fa-trash-alt"></i>
                         </a>
                     </div>
@@ -428,3 +430,208 @@ $(document).on('click', '.btn-task-completed', function(e) {
     
 
 });
+
+// Evento de clique no botão e carregar os dados da tarefa no modal
+$(document).on('click', '.btn-task-edit', function(e) {
+
+    //Cancela o comportamento padão de submit do formulário
+    e.preventDefault();
+
+    // Obtém o hash da tarefa a partir do atributo data
+    const taskHash = $(this).data('task-hash');
+    
+    // Define o valor do campo oculto no modal
+    $('#task_hash_update').val(taskHash);
+
+    // Limpa o formulário 
+    $('#task-user-manage')[0].reset();   
+    // Exibe o modal imediatamente
+    $('#modal-lg-edit-task').modal('show');
+
+    $.get({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: listTaskUserHash.replace(':hash', taskHash),
+        dataType: 'json',
+        type: 'GET',
+        success: function(response) {
+
+            // Carega  informações no modal
+            $('#title-update').val(response.title);
+            $('#description-update').val(response.description);
+            $('#status-update').val(response.status).trigger('change');
+
+        },
+        error: function(jqXHR, status, error) { 
+           Toast.fire({ icon: 'error', title: jqXHR.responseJSON })
+        }       
+    });
+    
+
+});
+
+//Função para atualizar a tarefa
+$( "#task-update" ).submit(function( event ) {
+    
+    //Cancela o comportamento padão de submit do formulário
+    event.preventDefault();
+
+    const data = {
+        title: $("#title-update").val(),
+        description: $("#description-update").val(),
+        status: $("#status-update").val(),
+        hash: $('#task_hash_update').val(),
+    }
+
+    $.post({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: updateTask,
+      dataType : 'json',
+      type: 'POST',
+      data: data,
+      success:function(data) {
+         // Fecha o modal
+         $('#modal-lg-edit-task').modal('hide');
+        // Limpa o formulário 
+        $('#task-update')[0].reset();   
+        // mensagem de aviso
+        Toast.fire({ icon: 'success', title: data.message });
+        // Atualiza a lista de tarefas
+        loadTasks('my_tasks');
+
+      },
+      error: function(jqXHR, status, error) { 
+        // Fecha o modal
+        $('#modal-lg-edit-task').modal('hide');
+        // Limpa o formulário 
+        $('#task-update')[0].reset();   
+        // mensagem de aviso
+         Toast.fire({ icon: 'error', title: jqXHR.responseJSON });
+      }       
+    });
+
+ });
+
+ //Evento de clique no botão para deletar a tarefa
+ $(document).on('click', '.btn-task-delete', function(e) {
+
+    const data = {
+        hash: $(this).data('task-hash'),
+    }
+
+    Swal.fire({
+        title: 'Tem certeza que deseja excluir ?',
+        text: "Depois de excluir você não poderá mais recuperar os dados dessa tarefa.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, tenho.',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.post({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: deleteTask,
+                dataType : 'json',
+                type: 'POST',
+                data: data,
+                success:function(data) {
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,
+                        text: '',
+                        confirmButtonColor: "#005D92",
+                        allowOutsideClick: false,
+                        }).then((result) => {
+
+                            //Confirma o resultado
+                            if (result.isConfirmed) {
+                                // Atualiza a lista de tarefas
+                                loadTasks('all_tasks');
+                            } else {
+                                // Atualiza a lista de tarefas
+                                loadTasks('all_tasks');
+                            }
+                             
+                        })
+
+                },
+                error: function(jqXHR, status, error) { 
+                   Toast.fire({ icon: 'error', title: jqXHR.responseJSON });
+                }       
+            });
+
+        }
+      })
+
+ });
+
+ //Função para carregar todos os usuários no multiselect do filtro de tarefas
+const loadUsers = () => {
+    // Limpa o select
+    $('#user-filter').empty();
+    // Percorre todos os usuários
+    users.forEach(function(user) {
+        $('#user-filter').append(
+            `<option value="${user.id}">${user.name}</option>`
+        );
+    });
+    // Inicializa o Select2
+    if ($.fn.select2) {
+        $('#user-filter').select2({
+            placeholder: "Selecione os usuários",
+            allowClear: true
+        });
+    }
+}
+
+ //Função para Filtrar tarefas pelos status, por pessoas, pesquisar pelo título, levando em consideração  o filtro de todos os usuário ou só do usuário logado via post pelo subimit do task-filter-form.
+$( "#task-filter-form" ).submit(function( event ) {
+    //Cancela o comportamento padão de submit do formulário
+    event.preventDefault();
+
+    const data = {
+        title: $("#title-filter").val(),
+        status: $("#status-filter").val(),
+        user_id: $("#user-filter").val(),
+        type: $('input[name="filter-tasks-dashboard"]:checked').val()
+    }
+
+    $.post({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: filterTask,
+      dataType : 'json',
+      type: 'POST',
+      data: data,
+      success:function(data) {
+
+        // dividir o data em dois arrays, um para pendente e outro para concluida
+        const pendingTasks = data.filter(task => task.status === 'Pendente');
+        const completedTasks = data.filter(task => task.status === 'Concluída');
+
+        console.log(data);
+        console.log(pendingTasks);
+        console.log(completedTasks);
+
+        creatCardTaskPending(pendingTasks);
+        creatCardTaskCompleted(completedTasks);
+
+      },
+      error: function(jqXHR, status, error) { 
+         Toast.fire({ icon: 'error', title: jqXHR.responseJSON });
+      }       
+    });
+
+ });
+

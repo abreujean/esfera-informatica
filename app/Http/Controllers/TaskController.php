@@ -96,7 +96,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Função para listar todos usuários vinculados a uma tarefa específica pelo hash.
+     * Função para listar todos dados da tarefas e usuários vinculados pelo hash.
      */
     public function listTaskUserHash($hash)
     {
@@ -138,5 +138,100 @@ class TaskController extends Controller
 
     }
 
+    /**
+     * Função para atualizar a tarefa.
+     */
+    public function update(Request $request)
+    {
+        try{ 
+            // Validar os dados da requisição
+            $request->validate([
+                'title' => 'required|min:3|max:255',
+                'description' => 'nullable|max:500',
+                'status' => 'required|in:Pendente,Concluída',
+            ]);
+
+            // Encontrar a tarefa pelo hash
+            $task = Task::where('hash', $request->input('hash'))->first();
+
+            // Atualizar os campos da tarefa
+            $task->title = $request->input('title');
+            $task->description = $request->input('description');
+            $task->status = $request->input('status');
+            $task->save();
+
+            // Acrecentar id do usuário da sessão na pabela pivo de tasks_users
+            $task->users()->syncWithoutDetaching(Auth::id());
+
+
+            return response()->json(['message' => 'Tarefa atualizada com sucesso.'], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json($e->getMessage(), 400);
+        } 
+    }
+
+    /**
+     * Função para deletar a tarefa pelo hash.
+     */
+    public function destroy(Request $request)
+    {
+        // Encontrar a tarefa pelo hash
+        $task = Task::where('hash', $request->input('hash'))->first();
+
+        if ($task) {
+            //atualizar para o status excluida
+            $task->status = 'Excluída';
+            $task->save();
+            
+            // Remover todos os usuários vinculados à tarefa
+            $task->users()->detach();   
+            return response()->json(['message' => 'Tarefa deletada com sucesso.'], 200);
+        } else {
+            return response()->json(['message' => 'Tarefa não encontrada.'], 404);
+        }
+    }
+
+    /**
+     * Função para Filtrar tarefas pelos status, por pessoas, pesquisar pelo título, levando em consideração  o filtro de todos os usuário ou só do usuário logado.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function filterTasks(Request $request)
+    {
+        // Iniciando a query com o relacionamento com usuários
+        $query = Task::with(['users' => function($q) {
+            $q->select('users.id', 'users.name');
+        }]);
+
+        // Filtrar por tipo: minhas tarefas ou todas
+        if ($request->input('type') === 'my_tasks') {
+            $query->whereHas('users', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
+    
+        // Filtrar por status (se não for "todos")
+        if ($request->filled('status') && $request->input('status') !== 'todos') {
+            $query->where('status', $request->input('status'));
+        }
+    
+        // Filtrar por array de user_id(s)
+        if ($request->filled('user_id') && is_array($request->input('user_id'))) {
+            $query->whereHas('users', function ($q) use ($request) {
+                $q->whereIn('user_id', $request->input('user_id'));
+            });
+        }
+    
+        // Filtrar por título
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+    
+        $tasks = $query->get();
+    
+        return response()->json($tasks);
+    }
     
 }
