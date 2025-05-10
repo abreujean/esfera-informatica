@@ -3,8 +3,15 @@
 @section('title', 'Dashboard')
 
 @section('css')
+    <!-- Myself Css -->
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @section('content')
 
     <div class="content-wrapper kanban" >
@@ -26,7 +33,7 @@
                     </div>
                 </div>
 
-                <a class="btn btn-app" data-toggle="modal" data-target="#modal-lg">
+                <a class="btn btn-app" data-toggle="modal" data-target="#modal-lg-create-task">
                     <i class="fas fa-save"></i> Criar Tarefa
                 </a>
             
@@ -110,25 +117,87 @@
     </div>
 
     <!-- MODAL -->
-    <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modal-lg-create-task" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-          <div class="modal-content">
+            <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Large Modal</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h4 class="modal-title">Criar Tarefa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
-              </button>
+                </button>
             </div>
             <div class="modal-body">
-              
+
+                <div class="card card-light">
+                <div class="card-header">
+                    
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id="task-create">
+                    <div class="card-body">
+                    <div class="form-group">
+                        <label for="title">Titulo</label>
+                        <input type="text" class="form-control" id="title" name="titulo" placeholder="Titulo">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição</label>
+                        <input type="text" class="form-control" id="description" name="description" placeholder="Descrição">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control select2 select2-hidden-accessible" id="status" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <option selected="selected" data-select2-id="Pendente">Pendente</option>
+                            <option data-select2-id="Concluída">Concluída</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" data-select2-id="82">
+                        <label>Vinculos</label>
+                        <select class="select2 select2-hidden-accessible" multiple="" id="user_id" data-placeholder="Select a State" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                            @foreach ($users as $user)
+                                <option  value="{{ $user->id }}" @if($user->id == Auth::id()) selected @endif >{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+    
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    </div>
+                </form>
+                </div>
+                
             </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    
             </div>
-          </div>
-          <!-- /.modal-content -->
+            <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
+    </div>
+
+@endsection
+
+
+@section('js')
+    <!-- Select2 -->
+    <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+
+        const createTaskUrl = "{{ route('tasks.store') }}";
+    </script>
+
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
 @endsection

@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -21,11 +22,11 @@
 <link rel="icon" href="{{ asset('AdminLTE/dist/img/AdminLTELogo.png') }}" type="image/x-icon">
 
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed dark-mode">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
 
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -37,7 +38,9 @@
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-           
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </li>
         </li>
 
@@ -140,6 +143,9 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('AdminLTE/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('AdminLTE/dist/js/demo.js') }}"></script>
+<script src="{{-- asset('AdminLTE/dist/js/demo.js') --}}"></script>
+
+@yield('js')
+
 </body>
 </html>
