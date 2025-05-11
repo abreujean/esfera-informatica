@@ -97,17 +97,29 @@ class UserController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        // Logic to delete a user
-        return redirect()->route('users.index');
+        try {
+            // Busca o usuário pelo hash
+            $user = User::where('hash', $request->input('hash'))->first();
+    
+            if (!$user) {
+                throw new \Exception("Usuário não encontrado");
+            }
+            // Verifica se o usuário possui tarefas vinculadas
+            if ($user->tasks()->exists()) {
+                throw new \Exception("Não é possível excluir o usuário, pois ele possui tarefas vinculadas.");
+            }
+
+            // Deleta o usuário
+            $user->delete();
+    
+            return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
     }
 
-    public function show($id)
-    {
-        // Logic to display a single user
-        return view('users.show', compact('id'));
-    }
 
     /**
      * Função para retornar todos os usuários

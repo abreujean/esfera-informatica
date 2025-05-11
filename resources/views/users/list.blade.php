@@ -87,6 +87,7 @@
         //Constants Routes
         const createUser = "{{ route('users.store') }}";
         const listUsers = "{{ route('users.list') }}";
+        const deleteUsers = "{{ route('users.delete') }}";
 
     </script>
 

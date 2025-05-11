@@ -1,3 +1,15 @@
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
+
 //iniciaalizar o datatable
 $(document).ready(function() {
     listUserTable();
@@ -55,3 +67,62 @@ $(document).ready(function() {
         }       
     });
 };
+
+
+//Evento de clique no botão para deletar a tarefa
+$(document).on('click', '.btn-user-delete', function(e) {
+
+    const data = {
+        hash: $(this).data('task-hash'),
+    }
+
+    Swal.fire({
+        title: 'Tem certeza que deseja excluir ?',
+        text: "Depois de excluir você não poderá mais recuperar os dados desse usuário.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, tenho.',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.post({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: deleteUsers,
+                dataType : 'json',
+                type: 'POST',
+                data: data,
+                success:function(data) {
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,
+                        text: '',
+                        confirmButtonColor: "#005D92",
+                        allowOutsideClick: false,
+                        }).then((result) => {
+
+                            //Confirma o resultado
+                            if (result.isConfirmed) {
+                                listUserTable();
+                            } else {
+                                listUserTable();
+                            }
+                             
+                        })
+
+                },
+                error: function(jqXHR, status, error) { 
+                   Toast.fire({ icon: 'error', title: jqXHR.responseJSON });
+                }       
+            });
+
+        }
+      })
+
+ });
