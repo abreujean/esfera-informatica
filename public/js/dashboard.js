@@ -529,6 +529,7 @@ $( "#task-update" ).submit(function( event ) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
+        color: "#fff",
         confirmButtonText: 'Sim, tenho.',
         cancelButtonText: 'Não'
       }).then((result) => {

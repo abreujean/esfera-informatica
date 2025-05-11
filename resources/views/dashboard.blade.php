@@ -157,7 +157,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    <button type="submit" class="btn btn-light">Criar</button>
                     </div>
                 </form>
                 </div>
@@ -223,7 +223,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    <button type="submit" class="btn btn-light">salvar</button>
                     </div>
                 </form>
                 </div>
@@ -241,7 +241,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Atualizar Tarefa</h4>
+                <h4 class="modal-title">Editar Tarefa</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
                 </button>
@@ -279,7 +279,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                    <button type="submit" class="btn btn-light">Cadastrar</button>
+                    <button type="submit" class="btn btn-light">Editar</button>
                     </div>
                 </form>
                 </div>

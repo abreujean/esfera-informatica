@@ -1,0 +1,18 @@
+.navbar-dark .navbar-nav .nav-link a{
+    margin-top: 5px!important;
+}
+
+.dark-mode .card-light:not(.card-outline)>.card-header {
+    background-color: #343a40;
+    color: #fff!important;
+}
+
+.brand-link .brand-image {
+    float: left;
+    line-height: .8;
+    margin-left: 0.2rem;
+    margin-right: .4rem;
+    margin-top: 7px;
+    max-height: 33px;
+    width: 50px;
+}

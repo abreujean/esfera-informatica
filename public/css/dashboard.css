@@ -28,3 +28,12 @@
 .card-footer .btn-tool{
     font-size: 17px!important;
 }
+
+.dark-mode .card-light:not(.card-outline)>.card-header {
+    background-color: #343a40!important;
+}
+
+.swal2-html-container {
+    color: #fff!important;
+}
+
