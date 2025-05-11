@@ -1,4 +1,4 @@
-````markdown
+
 # 🚀 Sistema de Gerenciamento de Tarefas (Laravel 10 + AdminLTE + Breeze)
 
 
@@ -24,6 +24,9 @@ Este é um sistema web para gerenciamento de tarefas (To-Do List), com autentica
 - CRUD com validação via Form Requests
 - Mensagens de feedback para ações
 
+*(Clique na imagem para ampliar o diagrama ER)*
+![DER-esfera-informatica](https://github.com/user-attachments/assets/31d5dddc-946b-4cf8-b96d-1280e647524c)
+  
 ## 🚀 Como Rodar o Projeto
 
 ### 1) Clone o repositório
@@ -31,9 +34,6 @@ Este é um sistema web para gerenciamento de tarefas (To-Do List), com autentica
 git clone https://github.com/abreujean/esfera-informatica
 cd seu-repositorio
 ````
-*(Clique na imagem para ampliar o diagrama ER)*
-![DER-esfera-informatica](https://github.com/user-attachments/assets/31d5dddc-946b-4cf8-b96d-1280e647524c)
-
 ### 2) Instale as dependências PHP e NPM
 
 ```bash
