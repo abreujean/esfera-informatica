@@ -1,5 +1,8 @@
 ````markdown
 # 🚀 Sistema de Gerenciamento de Tarefas (Laravel 10 + AdminLTE + Breeze)
+*(Clique na imagem para ampliar o diagrama ER)*
+
+![DER-esfera-informatica](https://github.com/user-attachments/assets/31d5dddc-946b-4cf8-b96d-1280e647524c)
 
 Este é um sistema web para gerenciamento de tarefas (To-Do List), com autenticação de usuários, controle de permissões e interface responsiva utilizando **Laravel 10**, **AdminLTE 3** e **jQuery**.
 
