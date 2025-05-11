@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\task;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +33,7 @@ class TaskController extends Controller
             ]);
             
             //Criar a tarefa
-            $task = new task();
+            $task = new Task();
             $task->hash = Uuid::uuid4();
             $task->title = $request->input('title');
             $task->description = $request->input('description');

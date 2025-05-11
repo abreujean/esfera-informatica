@@ -61,11 +61,7 @@ php artisan serve
 
 Acesse: `http://localhost:8000`
 
-## 🧪 Como Rodar os Testes
 
-```bash
-php artisan test
-```
 
 ## 🗂️ Estrutura Principal
 
@@ -74,14 +70,19 @@ app/
   Models/
     Task.php
     User.php
+    Profile.php
   Http/
     Controllers/
-    Requests/
-  Policies/
+      RouteController.php
+      TaskController.php
+      UserController.php
+    Middleware/
 resources/
   views/
-    tasks/
-    users/
+    layouts/
+    components/
+    profile/
+    dashboard.blade.php
 routes/
   web.php
 ```
