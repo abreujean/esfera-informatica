@@ -86,7 +86,7 @@
             </a>
           </li>
        
-          @if(Auth::user()->is_admin)
+          @if(Auth::user()->profile_id == 2)
           <li class="nav-header">Usuários</li>
           <li class="nav-item">
             <a href="{{route('users.create')}}" class="nav-link">
