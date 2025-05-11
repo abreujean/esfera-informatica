@@ -41,9 +41,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tasks/delete', [TaskController::class, 'destroy'])->name('tasks.delete');
     Route::post('/tasks/filter', [TaskController::class, 'filterTasks'])->name('tasks.filter');
 
-    //User routes
     Route::get('/users', [UserController::class, 'listAllUser'])->name('users.list');
 
+});
+
+//nome de middleware para VerificaSeUsuarioAdministrador
+Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
+
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/index', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{hash}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/users/update', [UserController::class, 'update'])->name('users.update');
+    Route::post('/users/delete', [UserController::class, 'destroy'])->name('users.delete');
 });
 
 

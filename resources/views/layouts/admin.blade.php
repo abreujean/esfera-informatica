@@ -75,16 +75,24 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+          <li class="nav-header">Tarefas</li>
+          <li class="nav-item">
+            <a href="{{ URL('/') }}/dashboard" class="nav-link">
+              <i class="fas fa-circle nav-icon"></i>
+              <p>To-Do List</p>
+            </a>
+          </li>
        
           <li class="nav-header">Usuários</li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('users.create')}}" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
               <p>Criar</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('users.index')}}" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
               <p>Listar</p>
             </a>
@@ -98,7 +106,7 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="height: auto;">
     <!-- Content Header (Page header) -->
 
 

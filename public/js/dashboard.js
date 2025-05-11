@@ -1,4 +1,4 @@
-let users = []
+let users = [];
 
 //Constantes
 const Toast = Swal.mixin({
