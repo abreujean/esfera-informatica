@@ -6,11 +6,11 @@ Este é um sistema web para gerenciamento de tarefas (To-Do List), com autentica
 
 ## 🛠️ Tecnologias Utilizadas
 - [Laravel 10](https://laravel.com)
-- [Laravel Breeze (Autenticação)](https://laravel.com/docs/10.x/starter-kits#breeze)
-- [AdminLTE 3](https://adminlte.io/)
 - [Bootstrap 5](https://getbootstrap.com/)
 - [jQuery 3](https://jquery.com/)
 - [Datatables](https://datatables.net/)
+- [AdminLTE 3](https://adminlte.io/)
+- [Laravel Breeze (Autenticação)](https://laravel.com/docs/10.x/starter-kits#breeze)
 
 ## 🎯 Funcionalidades
 - Autenticação de usuários (Login, Registro, Recuperação de Senha)
