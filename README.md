@@ -1,5 +1,5 @@
 
-# 🚀 Sistema de Gerenciamento de Tarefas (Laravel 10 + AdminLTE + Breeze)
+# 🚀 Sistema de Gerenciamento de Tarefas - To-Do List (Laravel 10 + AdminLTE + Breeze)
 
 
 Este é um sistema web para gerenciamento de tarefas (To-Do List), com autenticação de usuários, controle de permissões e interface responsiva utilizando **Laravel 10**, **AdminLTE 3** e **jQuery**.
