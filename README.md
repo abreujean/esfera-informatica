@@ -1,8 +1,8 @@
 
-# 🚀 Sistema de Gerenciamento de Tarefas - To-Do List (Laravel 10 + AdminLTE + Breeze)
+# 🚀 Sistema de Gerenciamento de Tarefas - To-Do List
 
 
-Este é um sistema web para gerenciamento de tarefas (To-Do List), com autenticação de usuários, controle de permissões e interface responsiva utilizando **Laravel 10**, **AdminLTE 3** e **jQuery**.
+Este é um sistema web para gerenciamento de tarefas (To-Do List), com autenticação de usuários, controle de permissões e interface responsiva utilizando **Laravel 10**, **Bootstrap 5** e **jQuery**.
 
 ## 🛠️ Tecnologias Utilizadas
 - [Laravel 10](https://laravel.com)
@@ -10,7 +10,7 @@ Este é um sistema web para gerenciamento de tarefas (To-Do List), com autentica
 - [AdminLTE 3](https://adminlte.io/)
 - [Bootstrap 5](https://getbootstrap.com/)
 - [jQuery 3](https://jquery.com/)
-- [Yajra Laravel Datatables](https://yajrabox.com/docs/laravel-datatables)
+- [Datatables](https://datatables.net/)
 
 ## 🎯 Funcionalidades
 - Autenticação de usuários (Login, Registro, Recuperação de Senha)
@@ -92,8 +92,8 @@ routes/
 
 ## 📦 Pacotes Extras Utilizados
 
-* `jeroennoten/laravel-adminlte` (template AdminLTE)
-* `yajra/laravel-datatables-oracle` (datatable com backend)
+* `adminlte` (template AdminLTE)
+* `datatables` (datatables)
 
 ## 💡 Usuário Admin Padrão (Seeder)
 
